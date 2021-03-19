@@ -1,0 +1,15 @@
+{
+  "type": "module",
+  "name": "ocean-test",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Jamie",
+  "license": "ISC",
+  "dependencies": {
+    "@oceanprotocol/lib": "^0.11.4"
+  }
+}
