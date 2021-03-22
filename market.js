@@ -4,7 +4,7 @@ const { Ocean, DataTokens } = require("@oceanprotocol/lib");
 const { factoryABI } = require("@oceanprotocol/contracts/artifacts/DTFactory.json");
 const { datatokensABI } = require("@oceanprotocol/contracts/artifacts/DataTokenTemplate.json");
 const { config, contracts, urls } = require("./config");
-
+const { testData } = require("./data");
 
 
 const init = async () => {
@@ -27,6 +27,24 @@ const init = async () => {
   await datatoken.mint(tokenAddress, alice, '100', alice)
   let aliceBalance = await datatoken.balance(tokenAddress, alice)
   console.log('Alice token balance:', aliceBalance)
+
+  dataService = await ocean.assets.createAccessServiceAttributes(
+    accounts[0],
+    10, // set the price in datatoken
+    new Date(Date.now()).toISOString().split(".")[0] + "Z", // publishedDate
+    0 // timeout
+  );
+
+  // publish asset
+  const createData = await ocean.assets.create(
+    testData,
+    accounts[0],
+    [dataService],
+    tokenAddress
+  );
+
+  const dataId = createData.id;
+  console.log('Data ID:', dataId);
 };
 
 init();
