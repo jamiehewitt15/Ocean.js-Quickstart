@@ -58,6 +58,9 @@ const init = async () => {
 
   const dataId = createData.id;
   console.log('Data ID:', dataId);
+
+  const dataDownload = await ocean.assets.simpleDownload(tokenAddress, urls.providerUri, transactionId, bob)
+  console.log('dataDownload', dataDownload)
 };
 
 init();
