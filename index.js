@@ -13,6 +13,8 @@ const init = async () => {
 
   const accounts = await ocean.accounts.list();
   const alice = accounts[0].id;
+  const bob = accounts[1].id;
+  console.log('Bob account address:', bob);
   console.log('Alice account address:', alice)
 
   const datatoken = new DataTokens(
@@ -27,6 +29,16 @@ const init = async () => {
   await datatoken.mint(tokenAddress, alice, '100', alice)
   let aliceBalance = await datatoken.balance(tokenAddress, alice)
   console.log('Alice token balance:', aliceBalance)
+
+  const transaction = await datatoken.transfer(tokenAddress, bob, '50', alice)
+  const transactionId = transaction['transactionHash']
+  console.log('transactionId', transactionId)
+
+  const bobBalance = await datatoken.balance(tokenAddress, bob)
+  aliceBalance = await datatoken.balance(tokenAddress, alice)
+
+  console.log('Alice token balance:', aliceBalance)
+  console.log('Bob token balance:', bobBalance)
 };
 
 init();
