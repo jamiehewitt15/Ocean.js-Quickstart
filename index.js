@@ -1,4 +1,5 @@
 const Web3 = require("web3");
+
 const { Ocean, DataTokens } = require("@oceanprotocol/lib");
 
 const { factoryABI } = require("@oceanprotocol/contracts/artifacts/DTFactory.json");
@@ -40,27 +41,30 @@ const init = async () => {
 
   console.log('Alice token balance:', aliceBalance)
   console.log('Bob token balance:', bobBalance)
+try{
+    console.log("Try")
+    const dataService = await ocean.assets.createAccessServiceAttributes(
+        accounts[0],
+        10, // set the price in datatoken
+        new Date(Date.now()).toISOString().split(".")[0] + "Z", // publishedDate
+        0 // timeout
+      );
+    
+      // publish asset
+      const createData = await ocean.assets.create(
+        testData,
+        accounts[0],
+        [dataService],
+        tokenAddress
+      );
+    
+      const dataId = createData.id;
+      console.log('Data ID:', dataId);
+      console.log("Try Finished")
+} catch(error) {"error", error}
+  
 
-  dataService = await ocean.assets.createAccessServiceAttributes(
-    accounts[0],
-    10, // set the price in datatoken
-    new Date(Date.now()).toISOString().split(".")[0] + "Z", // publishedDate
-    0 // timeout
-  );
 
-  // publish asset
-  const createData = await ocean.assets.create(
-    testData,
-    accounts[0],
-    [dataService],
-    tokenAddress
-  );
-
-  const dataId = createData.id;
-  console.log('Data ID:', dataId);
-
-  const dataDownload = await ocean.assets.simpleDownload(tokenAddress, urls.providerUri, transactionId, bob)
-  console.log('dataDownload', dataDownload)
 };
 
 init();
