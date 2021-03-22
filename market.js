@@ -45,6 +45,22 @@ const init = async () => {
 
   const dataId = createData.id;
   console.log('Data ID:', dataId);
+
+  await datatoken.approve(
+    tokenAddress,
+    '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0', // marketplace address,
+    '100', // marketplaceAllowance
+    alice
+  )
+
+ const marketplaceAllowance = await datatoken.allowance(
+    tokenAddress,
+    alice,
+    '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0', // marketplace address,
+ );
+
+ console.log("Marketplace Allowance:", marketplaceAllowance);
+
 };
 
 init();
