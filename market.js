@@ -19,6 +19,8 @@ const init = async () => {
   const accounts = await ocean.accounts.list();
   const alice = accounts[0].id;
   const marketplace = accounts[1].id;
+  const bob = accounts[2].id;
+  console.log('Bob account address:', bob);
   console.log('Marketplace account address:', marketplace)
   console.log('Alice account address:', alice)
 
@@ -31,7 +33,7 @@ const init = async () => {
   const tokenAddress = await datatoken.create(blob, alice);
   console.log(`Deployed datatoken address: ${tokenAddress}`);
 
-  await datatoken.mint(tokenAddress, alice, '100', alice)
+  await datatoken.mint(tokenAddress, alice, '200', alice)
   let aliceBalance = await datatoken.balance(tokenAddress, alice)
   console.log('Alice token balance:', aliceBalance)
 
@@ -80,9 +82,21 @@ aliceBalance = await datatoken.balance(tokenAddress, alice)
 console.log("Marketplace balance:", marketplaceBalance)
 console.log("Alice balance:", aliceBalance)
 
+await sleep(15000);
+
 const asset = await ocean.assets.resolve(dataId)
 const accessService = await ocean.assets.getServiceByType(asset.id, 'access')
 console.log("accessService", accessService)
+
+const transaction = await datatoken.transfer(tokenAddress, bob, '50', alice)
+const transactionId = transaction['transactionHash']
+console.log('transactionId', transactionId)
+
+const bobBalance = await datatoken.balance(tokenAddress, bob)
+aliceBalance = await datatoken.balance(tokenAddress, alice)
+
+console.log('Alice token balance:', aliceBalance)
+console.log('Bob token balance:', bobBalance)
 
 };
 
