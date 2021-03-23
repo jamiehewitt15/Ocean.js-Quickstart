@@ -9,11 +9,11 @@ const urls = {
 };
 
 const contracts = {
-  "DTFactory": "0xc354ba9AD5dF1023C2640b14A09E61a500F21546",
-  "BFactory": "0xF152cF3c67dFD41a317eAe8fAc0e1e8E98724A13",
-  "FixedRateExchange": "0x336EFb3c9E56F713dFdA4CDB3Dd0882F3226b6eE",
-  "Metadata": "0xfeA10BBb093d7fcb1EDf575Aa7e28d37b9DcFcE9",
-  "Ocean": "0xEBe77E16736359Bf0F9013F6017242a5971cAE76"
+  "DTFactory": "0x1e6d9207241DbDca82B0D9546490c97B24B1a9f6",
+  "BFactory": "0x98b6901cE7C9fc65dBeeC98598136593EB7b4c6C",
+  "FixedRateExchange": "0x91EB42b164664cB28a09B0cF9651b404Ee105afA",
+  "Metadata": "0x9C2a015129969c98E9A5BcBEb61A5F907FF5b629",
+  "Ocean": "0x2fC1fd21cb222Dc180Ef817dE4c426fd9230b5A5"
 };
 
 const config = {

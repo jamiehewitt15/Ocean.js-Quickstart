@@ -6,6 +6,11 @@ const { datatokensABI } = require("@oceanprotocol/contracts/artifacts/DataTokenT
 const { config, contracts, urls } = require("./config");
 const { testData } = require("./data");
 
+function sleep(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms)
+    })
+  }
 
 const init = async () => {
   const ocean = await Ocean.getInstance(config);
@@ -13,6 +18,8 @@ const init = async () => {
 
   const accounts = await ocean.accounts.list();
   const alice = accounts[0].id;
+  const marketplace = accounts[1].id;
+  console.log('Marketplace account address:', marketplace)
   console.log('Alice account address:', alice)
 
   const datatoken = new DataTokens(
@@ -36,30 +43,46 @@ const init = async () => {
   );
 
   // publish asset
-  const createData = await ocean.assets.create(
+  const ddo = await ocean.assets.create(
     testData,
     accounts[0],
     [dataService],
     tokenAddress
   );
 
-  const dataId = createData.id;
+  const dataId = ddo.id;
   console.log('Data ID:', dataId);
 
-  await datatoken.approve(
+  console.log('ddo.dataToken:', ddo.dataToken);
+  console.log('tokenAddress:', tokenAddress);
+  
+
+await datatoken.approve(
     tokenAddress,
-    '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0', // marketplace address,
+    marketplace, // marketplace address,
     '100', // marketplaceAllowance
     alice
-  )
+)
 
  const marketplaceAllowance = await datatoken.allowance(
     tokenAddress,
     alice,
-    '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0', // marketplace address,
+    marketplace, // marketplace address,
  );
 
  console.log("Marketplace Allowance:", marketplaceAllowance);
+
+// Marketplace withdraw Alice tokens from allowance
+await datatoken.transferFrom(tokenAddress, alice, '100', marketplace)
+const marketplaceBalance = await datatoken.balance(tokenAddress, marketplace)
+aliceBalance = await datatoken.balance(tokenAddress, alice)
+
+console.log("Marketplace balance:", marketplaceBalance)
+console.log("Alice balance:", aliceBalance)
+
+const asset = await ocean.assets.resolve(dataId)
+const accessService = await ocean.assets.getServiceByType(asset.id, 'access')
+console.log("accessService", accessService)
 
 };
 
