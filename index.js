@@ -59,8 +59,11 @@ const dataService = await ocean.assets.createAccessServiceAttributes(
 
     const dataId = createData.id;
     console.log('Data ID:', dataId);
+
+    const bobTransaction = await ocean.assets.order(dataId, accessService.type, bob)
+    console.log("bobTransaction", bobTransaction)
     
-    const dataDownload = await ocean.assets.simpleDownload(tokenAddress, urls.providerUri, transactionId, bob)
+    const dataDownload = await ocean.assets.simpleDownload(tokenAddress, urls.providerUri, bobTransaction, bob)
     console.log('dataDownload', dataDownload)
 
 };

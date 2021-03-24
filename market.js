@@ -92,12 +92,28 @@ const transaction = await datatoken.transfer(tokenAddress, bob, '50', alice)
 const transactionId = transaction['transactionHash']
 console.log('transactionId', transactionId)
 
-const bobBalance = await datatoken.balance(tokenAddress, bob)
+let bobBalance = await datatoken.balance(tokenAddress, bob)
 aliceBalance = await datatoken.balance(tokenAddress, alice)
 
 console.log('Alice token balance:', aliceBalance)
 console.log('Bob token balance:', bobBalance)
 
+const bobTransaction = await ocean.assets.order(ddo.id, accessService.type, bob)
+console.log("bobTransaction", bobTransaction)
+
+const data = await ocean.assets.download(
+  ddo.id,
+  bobTransaction,
+  tokenAddress,
+  accounts[2],
+  './datafiles'
+)
+bobBalance = await datatoken.balance(tokenAddress, bob)
+console.log("Bob token balance:", bobBalance)
+
+const history = await ocean.assets.getOrderHistory(accounts[2])
+
+console.log("Bob's history", history)
 };
 
 init();
